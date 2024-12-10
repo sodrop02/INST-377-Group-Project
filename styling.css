@@ -1,0 +1,19 @@
+nav{
+    background-color: rgb(247, 242, 242);
+    text-align: center;
+}
+
+nav li:hover{
+    background-color: rgb(224, 158, 254);
+
+}
+nav ul li{
+    list-style-type: None;
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
