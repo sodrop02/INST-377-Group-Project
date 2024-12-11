@@ -1,52 +1,3 @@
-<html>
-   <head>
-    <title>Pollen Forecast</title>
-    <link rel="stylesheet" href = "styling.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
-    
-   </head>
-<body>
-    <header> 
-        <h1> Title of Site </h1>
-    </header>
-    <nav id = "mainNav"> 
-        <ul>
-            <li> <a href="home.html">Home</a> </li>
-            <li> <a href="about.html">About</a></li>
-            <li> <a href="projectfunction.html">Forecast </a></li>
-        </ul>
-    </nav>
-    <form>
-        <label for="location">Enter Location: </label>
-        <input type="text" id="location" value = "Houston, TX">
-        <input type="submit" value = "Enter">
-    </form>
-    <div id = "mainContainer">
-    <div id = forcastContainer>
-        <p>Showing Forcast For:  <span id = "locationName">San Francisco, CA</span> </p>
-        
-        <h2 style = "text-align:center;">Pollen Forecast</h2>
-        <section class="splide" aria-label="Splide Basic HTML Example">
-            <div class="splide__track">  
-              <div class="splide__list"> 
-
-              </div>
-            
-            </div>
-    </div>
-    
-    <div id = pollenCalender>
-  
-    </div>
-    </div>
-    <div id = pollenBreakdown>
-        
-    </div>
-</body>
-</html>
-
-<script>
 
 
 function pollenForcast(){
@@ -139,8 +90,6 @@ function pollenForcast(){
             console.log(document.querySelector('.splide__list').outerHTML);
 
             });
-            var splide = new Splide('.splide');
-splide.mount();
 
             
         });
@@ -149,6 +98,8 @@ splide.mount();
 });
 }
 
-
+document.addEventListener('DOMContentLoaded', function () {
+    var splide = new Splide('.splide');
+    splide.mount();
+  });
 window.onload = pollenForcast;
-</script>
