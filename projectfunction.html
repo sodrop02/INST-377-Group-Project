@@ -17,14 +17,14 @@
             <li> <a href="projectfunction.html">Forecast </a></li>
         </ul>
     </nav>
-    <form>
+    <form onsubmit="return pollenForcast();">
         <label for="location">Enter Location: </label>
         <input type="text" id="location" value = "Houston, TX">
         <input type="submit" value = "Enter">
     </form>
     <div id = "mainContainer">
     <div id = forcastContainer>
-        <p>Showing Forcast For:  <span id = "locationName">San Francisco, CA</span> </p>
+        <p>Showing Forcast For:  <span id = "locationName"> </span> </p>
         
         <h2 style = "text-align:center;">Pollen Forecast</h2>
         <section class="splide" aria-label="Splide Basic HTML Example">
@@ -50,7 +50,9 @@
 
 
 function pollenForcast(){
+    if (event) event.preventDefault();
     const location = document.getElementById("location").value;
+    document.getElementById("locationName").innerHTML = location;
     console.log(location);
     const city = location.split(",")[0].trim();
     const states = [
@@ -89,7 +91,8 @@ function pollenForcast(){
     fetch(`https://pollen.googleapis.com/v1/forecast:lookup?key=${pollenAPIkey}&location.longitude=${long}&location.latitude=${lat}&days=5`)
     .then(response => response.json())
     .then(data => {
-       
+        const container = document.getElementsByClassName("splide__list")[0];
+        container.innerHTML = '';
         data["dailyInfo"][0]["pollenTypeInfo"].forEach((plant) =>{
             const holder = document.createElement("div");
             holder.classList.add("splide__slide");
@@ -134,11 +137,12 @@ function pollenForcast(){
                 holder.appendChild(image);
                 
             }
-            const container = document.getElementsByClassName("splide__list")[0];
+            
             container.appendChild(holder);
             console.log(document.querySelector('.splide__list').outerHTML);
 
             });
+
             var splide = new Splide('.splide');
 splide.mount();
 
@@ -147,6 +151,7 @@ splide.mount();
         
 
 });
+return false;
 }
 
 
