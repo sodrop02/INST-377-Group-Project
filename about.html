@@ -1,0 +1,63 @@
+<html>
+   <head>
+    <title> ABOUT OUR APPLICATION </title>
+    <link rel="stylesheet" href = "style.css">
+    <img src="AsaAgyemang.jpg" alt="Asa Agyemang Pic">
+   </head>
+<body>
+    <header> 
+        <h1> About Pollify </h1>
+    </header>
+    <nav id = "mainNav"> 
+        <ul>
+            <li> <a href="home.html">Home</a> </li>
+            <li> <a href="about.html">About</a></li>
+            <li> <a href="projectfunction.html">Forecast </a></li>
+        </ul>
+    </nav>
+
+    <section id="mission">
+        <h2>Our Mission</h2>
+        <p>
+            Our application was created with people who have allergies in mind. For some, having an allergy 
+            to natural elements such as tree, grass, or flower pollen can make going outside lethal. 
+            We aim to provide easy-to-access and up-to-date information on pollen conditions, 
+            helping users navigate their allergies and plan their activities safely.
+        </p>
+    </section>
+
+    <section id="team">
+        <h2>Meet Our Team</h2>
+        <div id="team-container">
+        </div>
+    </section>
+
+
+
+    <script>
+        // group memebers info 
+        const teamMembers = [
+            { name: "Asa Agyemang", role: "Frontend Developer : About Page & Read Me", img: "AsaAgyemang.jpg", bio:" Hello! I am a current junior studying Information science. Im interetsed in being a technical project manager!" },
+            { name: "Joshua Hu", role: "Backend Developer", img: "JoshHu.jpg" },
+            { name: "Semhar H", role: "Frontend Developer : Project Specific Functionality Page & Deployment", img: "Semhar.jpg" }
+            , { name: "Kai Jung", role: "Frontend Developer : Home Page & Developer Manual", img: "KaiJung.jpg" }
+        ];
+
+        const teamContainer = document.getElementById('team-container');
+
+        teamMembers.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'team-card';
+
+            card.innerHTML = `
+                <img src="images/${member.img}" alt="${member.name}" class="team-img">
+                <h2>${member.name}</h2>
+                <h3>${member.role}</h3>
+                <p>${member.bio} </p>
+            `;
+
+            teamContainer.appendChild(card);
+        });
+    </script>
+</body>
+</html>
