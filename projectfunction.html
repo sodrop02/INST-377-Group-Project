@@ -1,14 +1,14 @@
 <html>
    <head>
     <title>Pollen Forecast</title>
-    <link rel="stylesheet" href = "styling.css">
+    <link rel="stylesheet" href = "style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
     
    </head>
 <body>
     <header> 
-        <h1> Title of Site </h1>
+        <h1> Pollify </h1>
     </header>
     <nav id = "mainNav"> 
         <ul>
@@ -100,6 +100,7 @@ function pollenForcast(){
             name.innerHTML = plant["displayName"];
             holder.appendChild(name)
 
+
             if ('indexInfo' in plant){
                 console.log("yes");
                 
@@ -129,13 +130,22 @@ function pollenForcast(){
                     }
                 })
                 
-                
-               
+                const UPI_image = document.createElement("img");
+                UPI_image.src = `gauge (${plant['indexInfo']['value']}).png`;
+               console.log(UPI_image.src)
                 holder.appendChild(UPI_value);
+                holder.appendChild(UPI_image);
                 holder.appendChild(UPIbutton);
                 holder.appendChild(UPIInfo);
                 holder.appendChild(image);
                 
+            }
+            else{
+                const UPI_no_value = "0";
+                const UPI_no_value_image = document.createElement("img");
+                UPI_no_value_image.src = "gauge.png";
+                holder.appendChild(UPI_no_value_image);
+
             }
             
             container.appendChild(holder);

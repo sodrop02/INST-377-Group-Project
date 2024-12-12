@@ -1,0 +1,101 @@
+body {
+    
+    font-family: Copperplate, Papyrus, fantasy;
+    background-color: #FDF6EC;
+    color: #5D4037;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #8D6E63;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 1em 0;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    background-color: #D7CCC8;
+    padding: 0;
+    margin: 0;
+     
+}
+
+nav ul li {
+    margin: 0 6em;
+}
+nav li:hover {
+    background-color: rgb(212, 218, 102);
+    transition: 1s;
+}
+nav ul li a {
+    text-decoration: none;
+    color: #5D4037;
+    font-weight: bold;
+}
+
+#mission, #team {
+    margin: 2em;
+    padding: 1em;
+    background-color: #FFF8E1;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(163, 183, 160, 0.6);
+}
+
+#team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+
+
+.team-card {
+    background-color: #FFF3E0;
+    border: 1px solid #D7CCC8;
+    border-radius: 8px;
+    text-align: center;
+    padding: 1em;
+    width: 200px;
+    box-shadow: 0 5px 15px rgba(163, 183, 160, 0.6);
+}
+
+.team-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.team-card h3 {
+    margin: 0.5em 0 0.3em;
+    font-size: 1.2em;
+    color: #6D4C41;
+}
+
+.team-card p {
+    font-size: 0.9em;
+    color: #5D4037;
+}
+
+      #forcastContainer {
+            width: 70%;
+            float: left;
+            margin-bottom: 20px;
+            padding: 8px;
+            border: 2px solid rgb(99, 147, 87);
+            background-color: #FDF6EC;
+        }
+
+        #pollenCalender {
+            width: 20%;
+            float: right;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 2px solid rgb(99, 147, 87);
+            background-color: #FDF6EC;
+        }
