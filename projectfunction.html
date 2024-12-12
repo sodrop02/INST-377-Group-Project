@@ -1,159 +1,95 @@
+<!DOCTYPE html>
 <html>
-   <head>
+<head>
     <title>Pollen Forecast</title>
-    <link rel="stylesheet" href = "styling.css">
+    <link rel="stylesheet" href="styling.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
-    
-   </head>
+</head>
 <body>
-    <header> 
-        <h1> Title of Site </h1>
+    <header>
+        <h1>Pollen Forecast</h1>
     </header>
-    <nav id = "mainNav"> 
+    <nav>
         <ul>
-            <li> <a href="home.html">Home</a> </li>
-            <li> <a href="about.html">About</a></li>
-            <li> <a href="projectfunction.html">Forecast </a></li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projectfunction.html">Forecast</a></li>
         </ul>
     </nav>
-    <form onsubmit="return pollenForcast();">
-        <label for="location">Enter Location: </label>
-        <input type="text" id="location" value = "Houston, TX">
-        <input type="submit" value = "Enter">
+    <form id="forecastForm">
+        <label for="location">Enter Location:</label>
+        <input type="text" id="location" value="Houston, Texas">
+        <button type="submit">Enter</button>
     </form>
-    <div id = "mainContainer">
-    <div id = forcastContainer>
-        <p>Showing Forcast For:  <span id = "locationName"> </span> </p>
-        
-        <h2 style = "text-align:center;">Pollen Forecast</h2>
-        <section class="splide" aria-label="Splide Basic HTML Example">
-            <div class="splide__track">  
-              <div class="splide__list"> 
-
-              </div>
-            
+    <div id="forecastContainer">
+        <h2>Pollen Forecast</h2>
+        <p>Showing Forecast For: <span id="locationName"></span></p>
+        <section class="splide" aria-label="Pollen Forecast">
+            <div class="splide__track">
+                <div class="splide__list"></div>
             </div>
+        </section>
     </div>
-    
-    <div id = pollenCalender>
-  
-    </div>
-    </div>
-    <div id = pollenBreakdown>
-        
-    </div>
+    <script>
+        document.getElementById('forecastForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const locationInput = document.getElementById('location').value;
+            document.getElementById('locationName').innerText = locationInput;
+
+            const [city, stateOrCountry] = locationInput.split(',').map((s) => s.trim());
+            const isUSState = /^[A-Z]{2}$/.test(stateOrCountry);
+
+            try {
+                // Step 1: Get geolocation
+                const geoResponse = await fetch(`http://localhost:3001/api/geolocation?city=${city}${isUSState ? `&state=${stateOrCountry}` : ''}`);
+                if (!geoResponse.ok) throw new Error('Error fetching geolocation data');
+                const [geoData] = await geoResponse.json();
+                const { latitude, longitude } = geoData;
+
+                // Step 2: Get pollen forecast
+                const pollenResponse = await fetch(`http://localhost:3001/api/pollen?lat=${latitude}&long=${longitude}`);
+                if (!pollenResponse.ok) throw new Error('Error fetching pollen data');
+                const pollenData = await pollenResponse.json();
+
+                console.log(pollenData); // For debugging purposes
+
+                // Step 3: Display plant data in the carousel
+                const container = document.querySelector('.splide__list');
+                container.innerHTML = '';
+
+                pollenData.dailyInfo[0].plantInfo.forEach((plant) => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('splide__slide');
+                    slide.innerHTML = `
+                        <p><strong>${plant.displayName}</strong></p>
+                        ${plant.inSeason ? '<p>🌱 Currently in Season</p>' : ''}
+                        <p>${plant.indexInfo?.value ? `Pollen Index: ${plant.indexInfo.value}` : ''}</p>
+                        ${plant.plantDescription?.pictureCloseup ? `<img src="${plant.plantDescription.pictureCloseup}" alt="${plant.displayName}" style="max-width: 200px;">` : ''}
+                    `;
+                    container.appendChild(slide);
+                });
+
+                // Initialize the Splide carousel
+                new Splide('.splide', {
+                    type: 'loop',
+                    perPage: 3, // Adjust the number of slides shown at once
+                    perMove: 1,
+                    breakpoints: {
+                        768: {
+                            perPage: 1, // On smaller screens, show one slide at a time
+                        },
+                        1024: {
+                            perPage: 2,
+                        },
+                    },
+                }).mount();
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while fetching the forecast. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
-
-<script>
-
-
-function pollenForcast(){
-    if (event) event.preventDefault();
-    const location = document.getElementById("location").value;
-    document.getElementById("locationName").innerHTML = location;
-    console.log(location);
-    const city = location.split(",")[0].trim();
-    const states = [
-        "AL", "AK", "AZ", "AR", "CA", "CZ", "CO", "CT", "DE", "DC",
-        "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY",
-        "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE",
-        "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR",
-        "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI",
-        "VA", "WA", "WV", "WI", "WY"
-    ];
-    const state_or_country = location.split(",")[1].trim();
-    if (states.includes(state_or_country)){
-        apiUrl = `https://api.api-ninjas.com/v1/geocoding?city=${city}&country=US&state=${state_or_country}`;
-
-    }
-    else{
-        apiUrl = `https://api.api-ninjas.com/v1/geocoding?city=${city}&country=${state_or_country}`;
-    }
-
-    const locationapiKey = 'D/fEvDO8izx8y0EtZRBH3w==gJqDGZgxXwWrVrV6';
-
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-        'X-Api-Key': locationapiKey
-        }
-    })
-        .then(response => response.json()) 
-        .then(location_data => {
-            console.log(location_data);
-            const lat = location_data[0]["latitude"];
-            const long =location_data[0]["longitude"];
-    const pollenAPIkey = "AIzaSyBbIuOmITDop5cmqoFKlgNTdgL50d5ikts";
-    console.log(lat);
-    console.log(long);
-    fetch(`https://pollen.googleapis.com/v1/forecast:lookup?key=${pollenAPIkey}&location.longitude=${long}&location.latitude=${lat}&days=5`)
-    .then(response => response.json())
-    .then(data => {
-        const container = document.getElementsByClassName("splide__list")[0];
-        container.innerHTML = '';
-        data["dailyInfo"][0]["pollenTypeInfo"].forEach((plant) =>{
-            const holder = document.createElement("div");
-            holder.classList.add("splide__slide");
-            const name = document.createElement("p");
-            name.innerHTML = plant["displayName"];
-            holder.appendChild(name)
-
-            if ('indexInfo' in plant){
-                console.log("yes");
-                
-                const image = document.createElement("img");
-                const UPI_value = document.createElement("p");
-                UPI_value.innerHTML = `Universal Pollen Index: ${plant['indexInfo']['value']}`
-                const UPIbutton = document.createElement("button");
-                UPIbutton.innerHTML = "Show Index Description";
-                const UPIInfo = document.createElement("p");
-                UPIInfo.innerHTML = plant['indexInfo']["indexDescription"];
-                UPIInfo.style.display = 'none';
-                UPIbutton.addEventListener("click", () => {
-                    if (UPIInfo.style.display === 'none') {
-                        UPIInfo.style.display = 'block';  
-                    } else {
-                        UPIInfo.style.display = 'none';  
-                    }
-                })
-                data["dailyInfo"][0]['plantInfo'].forEach((plantInfo) => {
-                    if('indexInfo' in plantInfo){
-                        if (plantInfo['plantDescription']['type'] == plant['code']){
-                            
-                            image.src = plantInfo['plantDescription']['pictureCloseup'];
-                            image.width = 300;
-                            
-                        }
-                    }
-                })
-                
-                
-               
-                holder.appendChild(UPI_value);
-                holder.appendChild(UPIbutton);
-                holder.appendChild(UPIInfo);
-                holder.appendChild(image);
-                
-            }
-            
-            container.appendChild(holder);
-            console.log(document.querySelector('.splide__list').outerHTML);
-
-            });
-
-            var splide = new Splide('.splide');
-splide.mount();
-
-            
-        });
-        
-
-});
-return false;
-}
-
-
-window.onload = pollenForcast;
-</script>
