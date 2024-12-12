@@ -24,7 +24,7 @@
     </form>
     <div id = "mainContainer">
     <div id = forcastContainer>
-        <p>Showing Forcast For:  <span id = "locationName"> </span> </p>
+        <h4>Showing Forcast For:  <span id = "locationName"> </span> </h4>
         
         <h2 style = "text-align:center;">Pollen Forecast</h2>
         <section class="splide" aria-label="Splide Basic HTML Example">
@@ -132,7 +132,7 @@ function pollenForcast(){
                 
                 const UPI_image = document.createElement("img");
                 UPI_image.src = `gauge (${plant['indexInfo']['value']}).png`;
-               console.log(UPI_image.src)
+                console.log(UPI_image.src)
                 holder.appendChild(UPI_value);
                 holder.appendChild(UPI_image);
                 holder.appendChild(UPIbutton);
@@ -141,9 +141,12 @@ function pollenForcast(){
                 
             }
             else{
-                const UPI_no_value = "0";
+                
+                const UPI_no_value = document.createElement("p");
+                UPI_no_value.innerHTML = `Universal Pollen Index: 0`
                 const UPI_no_value_image = document.createElement("img");
                 UPI_no_value_image.src = "gauge.png";
+                holder.append(UPI_no_value);
                 holder.appendChild(UPI_no_value_image);
 
             }
