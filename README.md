@@ -17,7 +17,9 @@ after that, create a file in your directory with all the files called
 .env
 
 in your .env file, add these 2 lines:
+
 API_NINJAS_KEY= API_KEY_HERE
+
 GOOGLE_API_KEY= API_KEY_HERE
 
 replace API_KEY_HERE with the actual api keys
