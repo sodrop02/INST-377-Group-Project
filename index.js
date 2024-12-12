@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-
+require('dotenv').config();
 const app = express();
 const port = 3001;
 
@@ -25,7 +25,7 @@ app.get('/api/geolocation', async (req, res) => {
     try {
         const response = await axios.get(apiUrl, {
             headers: {
-                'X-Api-Key': 'D/fEvDO8izx8y0EtZRBH3w==gJqDGZgxXwWrVrV6',
+                'X-Api-Key': process.env.API_NINJAS_KEY,
             },
         });
         res.json(response.data); 
@@ -41,7 +41,7 @@ app.get('/api/pollen', async (req, res) => {
     const { lat, long } = req.query;
     if (!lat || !long) return res.status(400).send('Latitude and longitude are required');
 
-    const apiUrl = `https://pollen.googleapis.com/v1/forecast:lookup?key=AIzaSyBbIuOmITDop5cmqoFKlgNTdgL50d5ikts&location.longitude=${long}&location.latitude=${lat}&days=5`;
+    const apiUrl = `https://pollen.googleapis.com/v1/forecast:lookup?key=${process.env.GOOGLE_API_KEY}&location.longitude=${long}&location.latitude=${lat}&days=5`;
 
     try {
         const response = await axios.get(apiUrl);
