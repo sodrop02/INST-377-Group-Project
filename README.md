@@ -9,7 +9,9 @@ this will start on localhost:3001
 
 to access the api keys, and if you are in my group, do this:
 
-step 1: npm install
+step 1: 
+
+npm install
 
 that should be it, but just to double check do step 1.5
 
