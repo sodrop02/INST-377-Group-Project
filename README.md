@@ -31,3 +31,15 @@ API_NINJAS_KEY= API_KEY_HERE
 GOOGLE_API_KEY= API_KEY_HERE
 
 replace API_KEY_HERE with the actual api keys
+
+Installation:
+
+Running:
+
+Tests:
+
+API:
+
+Bugs:
+
+Roadmap:
