@@ -1,0 +1,87 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pollen Forecast</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="pollen.jpg" alt="Pollen Forecast Logo" class="logo">
+            <h1>Pollen Forecast</h1>
+            <nav>
+                <ul class="nav-bar">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="projectfunction.html">Forecast</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="search-bar">
+            <h2>Regional Pollen Levels Search</h2>
+            <input type="text" id="city-input" placeholder="Enter City">
+            <input type="text" id="country-input" placeholder="Enter Country">
+            <button id="search-button">Search</button>
+        </section>
+
+        <section class="forecast">
+            <h2>Current Pollen Levels</h2>
+            <div id="pollen-levels">
+                <p>Loading regional pollen data...</p>
+            </div>
+        </section>
+
+        <section class="pollen-breakdown">
+            <h2>Pollen Breakdown</h2>
+            <p>The pollen forecast includes trees, grasses, and weeds:</p>
+            <ul>
+                <li><strong>Tree Pollen:</strong> Trees include: hazel, alder, ash, birch, cottonwood, oak, olive, pine, Japanese cedar, Japanese cypress.</li>
+                <li><strong>Grass Pollen:</strong> Grasses include: grasses</li>
+                <li><strong>Weed Pollen:</strong> Weeds include: ragweed, alder, mugwort</li>
+            </ul>
+        </section>
+
+        <aside class="calendar">
+            <h2>Upcoming Days Forecast</h2>
+            <canvas id="pollen-calendar" width="300" height="300"></canvas>
+        </aside>
+    </main>
+
+    <script>
+        document.getElementById('search-button').addEventListener('click', async () => {
+            const city = document.getElementById('city-input').value;
+            const country = document.getElementById('country-input').value;
+
+            if (city && country) {
+                try {
+                    const geocodeResponse = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${city}&country=${country}`, {
+                        headers: { 'X-Api-Key': 'YOUR_API_NINJAS_KEY' }
+                    });
+
+                    const geocodeData = await geocodeResponse.json();
+
+                    if (geocodeData.length > 0) {
+                        const { latitude, longitude } = geocodeData[0];
+
+                        const pollenResponse = await fetch(`https://pollen.googleapis.com/v1/forecast:lookup?key=AIzaSyBbIuOmITDop5cmqoFKlgNTdgL50d5ikts&location.longitude=${longitude}&location.latitude=${latitude}&days=3`);
+
+                        const pollenData = await pollenResponse.json();
+
+                        document.getElementById('pollen-levels').innerHTML = JSON.stringify(pollenData, null, 2);
+                    } else {
+                        document.getElementById('pollen-levels').textContent = 'Location not found.';
+                    }
+                } catch (error) {
+                    console.error(error);
+                    document.getElementById('pollen-levels').textContent = 'Error fetching data.';
+                }
+            } else {
+                alert('Please enter both city and country.');
+            }
+        });
+
+        // Add Calendar
