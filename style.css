@@ -82,14 +82,6 @@ nav ul li a {
     color: #5D4037;
 }
 
-      #forcastContainer {
-            width: 70%;
-            float: left;
-            margin-bottom: 20px;
-            padding: 8px;
-            border: 2px solid rgb(99, 147, 87);
-            background-color: #FDF6EC;
-        }
 
         #pollenCalender {
             width: 20%;
@@ -99,3 +91,61 @@ nav ul li a {
             border: 2px solid rgb(99, 147, 87);
             background-color: #FDF6EC;
         }
+        /* Styling for the Splide slides */
+.splide__slide {
+    height: 450px; /* Adjust slide height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #FFF8E1;
+    border: 2px solid #D7CCC8;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+}
+
+/* Adjust the position of the pagination dots */
+.splide__pagination {
+    margin-top: 30px; /* Push the dots lower */
+    text-align: center; /* Center the dots */
+}
+
+/* Styling for images inside the slides */
+.splide__slide img {
+    max-width: 100%;
+    max-height: 200px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+/* Styling for text inside the slides */
+.splide__slide p {
+    font-size: 18px;
+    color: #5D4037;
+    text-align: center;
+    margin: 5px 0;
+}
+
+/* Container adjustments */
+#forecastContainer {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FDF6EC;
+    border: 2px solid #99A88E;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional responsive styling for mobile */
+@media (max-width: 768px) {
+    .splide__slide {
+        height: 350px;
+    }
+
+    .splide__pagination {
+        margin-top: 20px;
+    }
+}
