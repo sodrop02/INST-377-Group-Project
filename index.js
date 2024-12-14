@@ -17,9 +17,76 @@ app.get('/api/geolocation', async (req, res) => {
     }
 
     // Construct API URL with dynamic parameters
+    const statesDict = {
+        "AL": "Alabama",
+        "AK": "Alaska",
+        "AZ": "Arizona",
+        "AR": "Arkansas",
+        "CA": "California",
+        "CZ": "Canal Zone",
+        "CO": "Colorado",
+        "CT": "Connecticut",
+        "DE": "Delaware",
+        "DC": "District of Columbia",
+        "FL": "Florida",
+        "GA": "Georgia",
+        "GU": "Guam",
+        "HI": "Hawaii",
+        "ID": "Idaho",
+        "IL": "Illinois",
+        "IN": "Indiana",
+        "IA": "Iowa",
+        "KS": "Kansas",
+        "KY": "Kentucky",
+        "LA": "Louisiana",
+        "ME": "Maine",
+        "MD": "Maryland",
+        "MA": "Massachusetts",
+        "MI": "Michigan",
+        "MN": "Minnesota",
+        "MS": "Mississippi",
+        "MO": "Missouri",
+        "MT": "Montana",
+        "NE": "Nebraska",
+        "NV": "Nevada",
+        "NH": "New Hampshire",
+        "NJ": "New Jersey",
+        "NM": "New Mexico",
+        "NY": "New York",
+        "NC": "North Carolina",
+        "ND": "North Dakota",
+        "OH": "Ohio",
+        "OK": "Oklahoma",
+        "OR": "Oregon",
+        "PA": "Pennsylvania",
+        "PR": "Puerto Rico",
+        "RI": "Rhode Island",
+        "SC": "South Carolina",
+        "SD": "South Dakota",
+        "TN": "Tennessee",
+        "TX": "Texas",
+        "UT": "Utah",
+        "VT": "Vermont",
+        "VI": "Virgin Islands",
+        "VA": "Virginia",
+        "WA": "Washington",
+        "WV": "West Virginia",
+        "WI": "Wisconsin",
+        "WY": "Wyoming"
+      }      
+      
     let apiUrl = `https://api.api-ninjas.com/v1/geocoding?city=${city}`;
     if (state) {
-        apiUrl += `&state=${state}`;
+        if (state.length ==2  && state in statesDict){
+            const fullStateName = statesDict_1[state];
+
+            apiUrl += `&country=US&state=${fullStateName}`;
+        }
+        else if (Object.values(statesDict).includes(state)){
+        apiUrl += `&country=US&state=${state}`;}
+        else{
+         apiUrl += `&country=${state}`;
+        }
     }
 
     try {

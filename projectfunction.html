@@ -47,14 +47,84 @@
         document.getElementById('locationName').innerText = locationInput;
 
         const [city, stateOrCountry] = locationInput.split(',').map((s) => s.trim());
-        const isUSState = /^[A-Z]{2}$/.test(stateOrCountry);
 
+        const statesDict_1 = {
+            "AL": "Alabama",
+            "AK": "Alaska",
+            "AZ": "Arizona",
+            "AR": "Arkansas",
+            "CA": "California",
+            "CZ": "Canal Zone",
+            "CO": "Colorado",
+            "CT": "Connecticut",
+            "DE": "Delaware",
+            "DC": "District of Columbia",
+            "FL": "Florida",
+            "GA": "Georgia",
+            "GU": "Guam",
+            "HI": "Hawaii",
+            "ID": "Idaho",
+            "IL": "Illinois",
+            "IN": "Indiana",
+            "IA": "Iowa",
+            "KS": "Kansas",
+            "KY": "Kentucky",
+            "LA": "Louisiana",
+            "ME": "Maine",
+            "MD": "Maryland",
+            "MA": "Massachusetts",
+            "MI": "Michigan",
+            "MN": "Minnesota",
+            "MS": "Mississippi",
+            "MO": "Missouri",
+            "MT": "Montana",
+            "NE": "Nebraska",
+            "NV": "Nevada",
+            "NH": "New Hampshire",
+            "NJ": "New Jersey",
+            "NM": "New Mexico",
+            "NY": "New York",
+            "NC": "North Carolina",
+            "ND": "North Dakota",
+            "OH": "Ohio",
+            "OK": "Oklahoma",
+            "OR": "Oregon",
+            "PA": "Pennsylvania",
+            "PR": "Puerto Rico",
+            "RI": "Rhode Island",
+            "SC": "South Carolina",
+            "SD": "South Dakota",
+            "TN": "Tennessee",
+            "TX": "Texas",
+            "UT": "Utah",
+            "VT": "Vermont",
+            "VI": "Virgin Islands",
+            "VA": "Virginia",
+            "WA": "Washington",
+            "WV": "West Virginia",
+            "WI": "Wisconsin",
+            "WY": "Wyoming"
+          }  
+          let Url = `http://localhost:3001/api/geolocation?city=${city}`;
+          if (stateOrCountry) {
+              if (stateOrCountry.length ==2  && stateOrCountry in statesDict_1){
+                  const fullStateName = statesDict_1[stateOrCountry];
+      
+                  Url += `&country=US&state=${fullStateName}`;
+              }
+              else if (Object.values(statesDict_1).includes(stateOrCountry)){
+              Url += `&country=US&state=${stateOrCountry}`;}
+              else{
+               Url += `&country=${stateOrCountry}`;
+              }
+          }
         try {
             // Step 1: Get geolocation
-            const geoResponse = await fetch(`http://localhost:3001/api/geolocation?city=${city}${isUSState ? `&state=${stateOrCountry}` : ''}`);
+            const geoResponse = await fetch(Url);
             if (!geoResponse.ok) throw new Error('Error fetching geolocation data');
             const [geoData] = await geoResponse.json();
             const { latitude, longitude } = geoData;
+            console.log({ latitude, longitude } )
 
             // Step 2: Get pollen forecast
             const pollenResponse = await fetch(`http://localhost:3001/api/pollen?lat=${latitude}&long=${longitude}`);
