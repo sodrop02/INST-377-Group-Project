@@ -17,14 +17,29 @@
                 <li><a href="projectfunction.html">Forecast</a></li>
             </ul>
         </nav>
-        <form id="forecastForm">
+        <h3 style = "padding-left: 15px;">Search</h3>
+        <form id="forecastForm" style = "padding-left: 25px;">
             <label for="location">Enter Location:</label>
             <input type="text" id="location" value="Houston, Texas">
             <button type="submit">Enter</button>
         </form>
         <div id="mainContainer">
-            <div id="forecastContainer">
-                <h4>Showing Forecast For: <span id="locationName"></span></h4>
+            <div id="forecastContainer" style = "display: none;">
+                <h3>Showing Forecast For: <span id="locationName"></span></h3>
+                <h3 id = "Date" style = "text-align:center;"></h3>
+                <div id = "simpleForecast">
+                        
+                    </div>
+                    <section class="pollen-breakdown">
+                        <h3>Pollen Breakdown</h3>
+                        <p>The pollen forecast displays the index levels of tree, grass, and weed pollen while the detailed forcast gives the levels of the individual plants that make up these pollen groups. </p>
+                        <ul>
+                            <li><strong>Tree Pollen:</strong> Trees include: hazel, alder, ash, birch, cottonwood, oak, olive, pine, Japanese cedar, Japanese cypress.</li>
+                            <li><strong>Grass Pollen:</strong> Grasses include: grasses</li>
+                            <li><strong>Weed Pollen:</strong> Weeds include: ragweed, alder, mugwort</li>
+                        </ul>
+                    </section>
+               <h3>Detailed Forcast:</h3>
                 <section class="splide" aria-label="Pollen Forecast">
                     <div class="splide__track">
                         <div class="splide__list">
@@ -137,7 +152,51 @@
                 splideInstance.destroy(true);
             }
 
-            // Step 3: Display plant data in the carousel
+            // Inserting Date
+            const monthDict = {
+                "1": "January",
+                "2": "February",
+                "3": "March",
+                "4": "April",
+                "5": "May",
+                "6": "June",
+                "7": "July",
+                "8": "August",
+                "9": "September",
+                "10": "October",
+                "11": "November",
+                "12": "December"
+              };
+            numericalMonth = pollenData["dailyInfo"][0]['date']['month']          
+            document.getElementById('Date').innerHTML = `${monthDict[numericalMonth]} ${pollenData["dailyInfo"][0]['date']['day']}, ${pollenData["dailyInfo"][0]['date']['year']}`;
+            // Step 3: Display pollen type data in simple forcast
+            const simpleContainer = document.getElementById("simpleForecast");
+            simpleContainer.innerHTML = '';
+            pollenData["dailyInfo"][0]["pollenTypeInfo"].forEach((plant_simple) =>{
+            const simpleHolder = document.createElement("div");
+            simpleHolder.innerHTML = `
+                    <p><strong>${plant_simple.displayName}</strong></p>
+                `;
+            const simple_gaugeImage = document.createElement('img');
+            simple_gaugeImage.src = plant_simple.indexInfo?.value
+                    ? `gauge (${plant_simple.indexInfo.value}).png`
+                    : 'gauge.png';
+                simple_gaugeImage.alt = `Pollen Index Gauge for ${plant_simple.displayName}`;
+                simple_gaugeImage.style.width = '150px';
+                simpleHolder.appendChild(simple_gaugeImage);
+                simpleHolder.innerHTML += `
+                ${plant_simple.inSeason ? '<p>🌱 Currently in Season</p>' : ''}
+                <p>${plant_simple.indexInfo?.value ? `Pollen Index: ${plant_simple.indexInfo.value}` : ''}</p>
+            `;
+            simpleHolder.style.padding = '25px';
+            simpleHolder.style.textAlign = 'center';
+            simpleHolder.style.alignItems = 'center';
+            simpleContainer.appendChild(simpleHolder)
+            });
+
+
+
+            // Step 4: Display plant data in the carousel
             const container = document.querySelector('.splide__list');
             container.innerHTML = '';
 
@@ -187,6 +246,7 @@
                 },
             });
             splideInstance.mount();
+            document.getElementById("forecastContainer").style.display = "block";
         } catch (error) {
             console.error(error);
             alert('An error occurred while fetching the forecast. Please try again.');

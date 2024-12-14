@@ -128,6 +128,10 @@ nav ul li a {
     margin: 5px 0;
 }
 
+
+#mainContainer{
+    padding-top:25px;
+}
 /* Container adjustments */
 #forecastContainer {
     width: 90%;
@@ -148,4 +152,12 @@ nav ul li a {
     .splide__pagination {
         margin-top: 20px;
     }
+}
+
+
+#simpleForecast {
+    display: flex;
+    justify-content: center; /* Horizontally center the child items */
+    align-items: center; /* Vertically center the child items */
+    
 }
