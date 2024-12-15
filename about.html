@@ -5,18 +5,18 @@
    </head>
 <body>
     <header> 
-        <h1> Pollify </h1>
+        <h1> ✩°𓏲⋆🌿 Pollify ✩°𓏲⋆🌿 </h1>
     </header>
     <nav id = "mainNav"> 
         <ul>
-            <li> <a href="home.html">Home</a> </li>
-            <li> <a href="about.html">About</a></li>
-            <li> <a href="projectfunction.html">Forecast </a></li>
+            <li> <a href="home.html">Home 🌿</a> </li>
+            <li> <a href="about.html">About ✩🍃𓏲 </a></li>
+            <li> <a href="projectfunction.html">Forecast 🌀 </a></li>
         </ul>
     </nav>
 
     <section id="mission">
-        <h2>Our Mission</h2>
+        <h2>✩°Our Mission°✩</h2>
         <p>
             Our application was created with people who have allergies in mind. For some, having an allergy 
             to natural elements such as tree, grass, or flower pollen can make going outside lethal. 
@@ -26,7 +26,7 @@
     </section>
 
     <section id="team">
-        <h2>Meet Our Team</h2>
+        <h2>✩ Meet Our  Wonderful Team ✩</h2>
         <div id="team-container">
         </div>
     </section>
@@ -58,5 +58,45 @@
             teamContainer.appendChild(card);
         });
     </script>
+<section id="pollen-info">
+    <h2>✩ Pollify's Trips & Tricks for understanding Pollen and How to Stay Safe ! ✩ </h2>
+    <div id="pollen-container"></div>
+</section>
+
+<script>
+    // pollen informational section
+    const pollenTypes = [
+        {
+            type: "Tree Pollen",
+            effects: "Tree pollen is a common allergen during spring and can cause sneezing, itchy eyes, and congestion.",
+            prevention: "Close windows, use air purifiers, and avoid outdoor activities in the morning when pollen counts are highest."
+        },
+        {
+            type: "Grass Pollen",
+            effects: "Grass pollen peaks in late spring and summer, leading to hay fever symptoms such as runny nose and itchy throat.",
+            prevention: "Wear sunglasses outdoors, shower after being outside, and use antihistamines as needed."
+        },
+        {
+            type: "Weed Pollen",
+            effects: "Weed pollen, especially ragweed, is prevalent in late summer and fall and triggers strong allergy symptoms.",
+            prevention: "Use a pollen mask, keep car windows closed, and consider allergy shots if symptoms are severe."
+        }
+    ];
+
+    const pollenContainer = document.getElementById('pollen-container');
+
+    pollenTypes.forEach(pollen => {
+        const card = document.createElement('div');
+        card.className = 'pollen-card';
+
+        card.innerHTML = `
+            <h3>${pollen.type}</h3>
+            <p><strong>Effects:</strong> ${pollen.effects}</p>
+            <p><strong>Prevention:</strong> ${pollen.prevention}</p>
+        `;
+
+        pollenContainer.appendChild(card);
+    });
+</script>
 </body>
 </html>

@@ -9,9 +9,9 @@ body {
 
 header {
     background-color: #8D6E63;
-    color: #FFFFFF;
+    color: #fef2e9;
     text-align: center;
-    padding: 1em 0;
+    padding: 16px 0;
 }
 
 nav ul {
@@ -25,7 +25,7 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 6em;
+    margin: 0 94px;
 }
 nav li:hover {
     background-color: rgb(212, 218, 102);
@@ -38,8 +38,8 @@ nav ul li a {
 }
 
 #mission, #team {
-    margin: 2em;
-    padding: 1em;
+    margin: 32px;
+    padding: 16px;
     background-color: #FFF8E1;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(163, 183, 160, 0.6);
@@ -49,9 +49,14 @@ nav ul li a {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5em;
+    gap: 19px;
 }
 
+.team-card img:hover {
+    transform: scale(1.5); 
+    box-shadow: 0 6px 12px rgba(133, 215, 26, 0.908); 
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
 
 
 .team-card {
@@ -59,7 +64,7 @@ nav ul li a {
     border: 1px solid #D7CCC8;
     border-radius: 8px;
     text-align: center;
-    padding: 1em;
+    padding: 16px;
     width: 200px;
     box-shadow: 0 5px 15px rgba(163, 183, 160, 0.6);
 }
@@ -72,13 +77,13 @@ nav ul li a {
 }
 
 .team-card h3 {
-    margin: 0.5em 0 0.3em;
-    font-size: 1.2em;
+    margin: 8px 0 4px;
+    font-size: 17px;
     color: #6D4C41;
 }
 
 .team-card p {
-    font-size: 0.9em;
+    font-size: 16px;
     color: #5D4037;
 }
 
@@ -160,4 +165,39 @@ nav ul li a {
     justify-content: center; /* Horizontally center the child items */
     align-items: center; /* Vertically center the child items */
     
+}
+
+ /* pollen info styling */
+ #pollen-info {
+    margin: 35px;
+    padding: 20px;
+    background-color: #FFF8E1;
+    border: 2px solid #d2cc54;
+    border-radius: 8px;
+}
+#pollen-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+.pollen-card {
+    width: 300px;
+    padding: 15px;
+    background-color: #FFF8E1;
+    border: 2px solid #d2cc54;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(114, 69, 0, 0.881);
+}
+.pollen-card h3 {
+    margin-top: 0;
+    color: #006330;
+}
+.pollen-card p {
+    margin: 10px 0;
+}
+.pollen-card:hover {
+    transform: scale(1.5); /* make the card bigger for emphasis on info */
+    box-shadow: 0 6px 12px rgba(133, 215, 26, 0.908); 
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
 }
