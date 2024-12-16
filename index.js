@@ -5,10 +5,9 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-console.log("backend running")
+
 // Middleware for parsing JSON
 app.use(express.json());
-
 
 
 // Create a PostgreSQL connection pool
