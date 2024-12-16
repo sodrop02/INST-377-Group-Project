@@ -4,7 +4,8 @@ const cors = require('cors');
 const { Pool } = require('pg'); 
 require('dotenv').config();
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3000;
+
 
 // Middleware for parsing JSON
 app.use(express.json());
@@ -185,4 +186,6 @@ app.get('/api/pollen', async (req, res) => {
 
 
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
