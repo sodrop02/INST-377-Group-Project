@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors'); 
 const { Pool } = require('pg'); 
 require('dotenv').config();
 const app = express();
@@ -9,14 +8,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware for parsing JSON
 app.use(express.json());
-app.use(cors({
-    origin: [
-        'http://127.0.0.1:3000', // Local development
-        'https://inst-377-group-project-ten.vercel.app' // Deployed Vercel frontend
-    ],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+
 
 
 // Create a PostgreSQL connection pool
