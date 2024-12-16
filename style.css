@@ -108,7 +108,7 @@ nav ul li a {
     background-color: #FFF8E1;
     border: 2px solid #D7CCC8;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+    box-shadow: 0 5px 15px rgba(2, 154, 9, 0.653); /* Subtle shadow for better visibility */
 }
 
 /* Adjust the position of the pagination dots */
@@ -157,7 +157,7 @@ nav ul li a {
     background-color: #FDF6EC;
     border: 2px solid #99A88E;
     border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 10px rgba(46, 155, 2, 0.573);
 }
 
 /* Optional responsive styling for mobile */
