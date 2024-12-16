@@ -2,22 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pollen Archive</title>
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #8D6E63;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Pollen Archive</h1>
+        <h1>Pollen Forecast Archive</h1>
     </header>
     <nav>
         <ul>
             <li> <a href="home.html">Home 🌿</a> </li>
-            <li> <a href="about.html">About ✩🍃𓏲 </a></li>
-            <li> <a href="projectfunction.html">Forecast 🌀 </a></li>
+            <li> <a href="about.html">About ✩🍃𓏲</a></li>
+            <li> <a href="projectfunction.html">Forecast 🌀</a></li>
             <li> <a href="archive.html">Archive ⌛</a> </li>
         </ul>
     </nav>
+
+    <table id="archiveTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Grass Pollen</th>
+                <th>Tree Pollen</th>
+                <th>Weed Pollen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch data from the backend and populate the table
+        async function fetchArchiveData() {
+            try {
+                const response = await fetch('http://localhost:3001/api/pollen-archive');
+                const archiveData = await response.json();
+
+                // Select the table body
+                const tableBody = document.querySelector('#archiveTable tbody');
+                tableBody.innerHTML = ''; // Clear existing content
+
+                // Populate rows
+                archiveData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.id}</td>
+                        <td>${new Date(row.date).toLocaleString()}</td>
+                        <td>${row.location}</td>
+                        <td>${row.grass_pollen}</td>
+                        <td>${row.tree_pollen}</td>
+                        <td>${row.weed_pollen}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error fetching archive data:', error.message);
+                alert('Failed to load archive data.');
+            }
+        }
+
+        // Fetch and display data on page load
+        fetchArchiveData();
+    </script>
 </body>
 </html>

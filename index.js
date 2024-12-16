@@ -1,11 +1,75 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors'); 
+const { Pool } = require('pg'); 
 require('dotenv').config();
 const app = express();
 const port = 3001;
 
 // Middleware for parsing JSON
 app.use(express.json());
+app.use(cors({
+    origin: 'http://127.0.0.1:3000', // Replace with your frontend URL
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+
+// Create a PostgreSQL connection pool
+const pool = new Pool({
+    connectionString: process.env.SUPABASE_URL,
+    ssl: {
+        rejectUnauthorized: false, // Required for Supabase connections
+    },
+});
+
+// Test the connection
+pool.connect()
+    .then(() => console.log('Connected to Supabase PostgreSQL!'))
+    .catch((err) => console.error('Database connection error:', err.stack));
+
+// Archive API write endpoint
+app.post('/api/pollen-archive', async (req, res) => {
+    const { date, grass_pollen, tree_pollen, weed_pollen, location } = req.body;
+
+    // Validate the incoming request data
+    if (!date || !location || grass_pollen === undefined || tree_pollen === undefined || weed_pollen === undefined) {
+        return res.status(400).json({
+            error: 'Missing required fields: date, location, grass_pollen, tree_pollen, weed_pollen',
+        });
+    }
+
+    try {
+        // Insert data into the pollen_archive table
+        const query = `
+            INSERT INTO pollen_archive (date, grass_pollen, tree_pollen, weed_pollen, location)
+            VALUES ($1, $2, $3, $4, $5) RETURNING *;
+        `;
+        const values = [date, grass_pollen, tree_pollen, weed_pollen, location];
+
+        const { rows } = await pool.query(query, values);
+
+        // Send a success response with the inserted row
+        res.status(201).json({
+            message: 'Pollen forecast added to archive successfully!',
+            data: rows[0],
+        });
+    } catch (error) {
+        console.error('Error inserting data into pollen_archive:', error.message);
+        res.status(500).json({ error: 'Failed to add pollen forecast to archive' });
+    }
+});
+
+//archive GET endpoint
+app.get('/api/pollen-archive', async (req, res) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM pollen_archive ORDER BY date DESC;');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching pollen archive:', error.message);
+        res.status(500).json({ error: 'Failed to fetch archive data' });
+    }
+});
 
 // Geolocation API
 app.get('/api/geolocation', async (req, res) => {
@@ -108,7 +172,7 @@ app.get('/api/pollen', async (req, res) => {
     const { lat, long } = req.query;
     if (!lat || !long) return res.status(400).send('Latitude and longitude are required');
 
-    const apiUrl = `https://pollen.googleapis.com/v1/forecast:lookup?key=${process.env.GOOGLE_API_KEY}&location.longitude=${long}&location.latitude=${lat}&days=5`;
+    const apiUrl = `https://pollen.googleapis.com/v1/forecast:lookup?key=${process.env.GOOGLE_API_KEY}&location.longitude=${long}&location.latitude=${lat}&days=1`;
 
     try {
         const response = await axios.get(apiUrl);

@@ -28,6 +28,7 @@
         <div id="mainContainer">
             <div id="forecastContainer" style = "display: none;">
                 <h3>Showing Forecast For: <span id="locationName"></span></h3>
+                <button id="addToArchive">Add to Archive</button>
                 <h3 id = "Date" style = "text-align:center;"></h3>
                 <div id = "simpleForecast">
                         
@@ -55,8 +56,8 @@
 
 </html>
 <script>
+    let latitude, longitude, pollenData;
     let splideInstance;
-
     document.getElementById('forecastForm').addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -140,13 +141,14 @@
             const geoResponse = await fetch(Url);
             if (!geoResponse.ok) throw new Error('Error fetching geolocation data');
             const [geoData] = await geoResponse.json();
-            const { latitude, longitude } = geoData;
-            console.log({ latitude, longitude } )
+            latitude = geoData.latitude; 
+            longitude = geoData.longitude;
+            console.log({ latitude, longitude });
 
             // Step 2: Get pollen forecast
             const pollenResponse = await fetch(`http://localhost:3001/api/pollen?lat=${latitude}&long=${longitude}`);
             if (!pollenResponse.ok) throw new Error('Error fetching pollen data');
-            const pollenData = await pollenResponse.json();
+            pollenData = await pollenResponse.json();
 
             console.log(pollenData); // Debugging purposes
 
@@ -254,4 +256,57 @@
             alert('An error occurred while fetching the forecast. Please try again.');
         }
     });
+
+    document.getElementById('addToArchive').addEventListener('click', async () => {
+        try {
+            // Use the global pollenData, latitude, and longitude
+            if (!pollenData) throw new Error('Pollen data is not available. Please fetch the forecast first.');
+    
+            const pollenInfo = pollenData.dailyInfo[0].pollenTypeInfo;
+    
+            function getPollenValue(pollenArray, pollenCode) {
+                const pollen = pollenArray.find((item) => item.code === pollenCode);
+                return pollen?.indexInfo?.value || 0; // Default to 0 if undefined
+            }
+    
+            const grass_pollen = getPollenValue(pollenInfo, 'GRASS');
+            const tree_pollen = getPollenValue(pollenInfo, 'TREE');
+            const weed_pollen = getPollenValue(pollenInfo, 'WEED');
+    
+            console.log('Grass Pollen:', grass_pollen);
+            console.log('Tree Pollen:', tree_pollen);
+            console.log('Weed Pollen:', weed_pollen);
+    
+            const location = document.getElementById('locationName').innerText || 'Unknown Location';
+            const payload = {
+                date: new Date().toISOString(),
+                location,
+                grass_pollen,
+                tree_pollen,
+                weed_pollen
+            };
+    
+            console.log('Payload:', payload);
+    
+            const archiveResponse = await fetch('http://localhost:3001/api/pollen-archive', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+    
+            if (archiveResponse.ok) {
+                const result = await archiveResponse.json();
+                alert('Pollen forecast successfully archived!');
+                console.log('Archive Response:', result);
+            } else {
+                const error = await archiveResponse.json();
+                throw new Error(error.message || 'Failed to archive pollen data');
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+            alert('Something went wrong. Please try again.');
+        }
+    });
+    
+    
 </script>
