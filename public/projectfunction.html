@@ -123,7 +123,7 @@
             "WI": "Wisconsin",
             "WY": "Wyoming"
           }  
-          let Url = `http://localhost:3001/api/geolocation?city=${city}`;
+          let Url = `/api/geolocation?city=${city}`;
           if (stateOrCountry) {
               if (stateOrCountry.length ==2  && stateOrCountry in statesDict_1){
                   const fullStateName = statesDict_1[stateOrCountry];
@@ -146,7 +146,7 @@
             console.log({ latitude, longitude });
 
             // Step 2: Get pollen forecast
-            const pollenResponse = await fetch(`http://localhost:3001/api/pollen?lat=${latitude}&long=${longitude}`);
+            const pollenResponse = await fetch(`/api/pollen?lat=${latitude}&long=${longitude}`);
             if (!pollenResponse.ok) throw new Error('Error fetching pollen data');
             pollenData = await pollenResponse.json();
 
@@ -288,7 +288,7 @@
     
             console.log('Payload:', payload);
     
-            const archiveResponse = await fetch('http://localhost:3001/api/pollen-archive', {
+            const archiveResponse = await fetch('/api/pollen-archive', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
