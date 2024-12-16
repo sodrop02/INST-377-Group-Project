@@ -1,45 +1,43 @@
 # INST-377-Group-Project
-group project repo for our inst377 group
 
-to start the backend server:
-
-node index.js
-
-this will start on localhost:3001
-
-to access the api keys, and if you are in my group, do this:
-
-step 1: 
-
-npm install
-
-that should be it, but just to double check do step 1.5
-
-
-step 1.5: make sure dotenv is installed in your project directory by doing
-
-npm i dotenv
-
-after that, create a file in your directory with all the files called
-
-.env
-
-in your .env file, add these 2 lines:
-
-API_NINJAS_KEY= API_KEY_HERE
-
-GOOGLE_API_KEY= API_KEY_HERE
-
-replace API_KEY_HERE with the actual api keys
+Developer Manual:
 
 Installation:
+Install necessary dependencies:
+npm install
+npm i dotenv
+
+create .env file with these lines, replacing "API_KEY" with your key:
+API_NINJAS_KEY=API_KEY
+GOOGLE_API_KEY=API_KEY
 
 Running:
 
+Backend:
+
+Run:
+node index.js
+
+Frontend: open index.html in the browser.
+
 Tests:
+Manual testing can be done by using the browser and interacting with the site there.
 
 API:
+GET /api/geolocation
+Parameters:
+city
+state
+
+GET /api/pollen
+Parameters:
+lat: lattitude
+long: longitude
 
 Bugs:
+None documented.
 
 Roadmap:
+User authentification for saving locations.
+Optimization of site for mobile usage.
+Further bug testing and fixing.
