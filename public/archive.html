@@ -62,7 +62,7 @@
         // Fetch data from the backend and populate the table
         async function fetchArchiveData() {
             try {
-                const response = await fetch('http://localhost:3001/api/pollen-archive');
+                const response = await fetch(`${window.location.origin}/api/pollen-archive`);
                 const archiveData = await response.json();
 
                 // Select the table body
