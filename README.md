@@ -1,5 +1,29 @@
 # INST-377-Group-Project
 
+Application name: Pollify
+
+
+Description
+
+Pollify is an application designed to help individuals with pollen allergies better manage their outdoor activities. By providing real-time information about pollen levels in their area, Pollify empowers users to plan their day while minimizing the risks associated with allergy triggers. With features like a detailed pollen type breakdown, preventative tips, and a user-friendly interface, Pollify aims to make life safer and more comfortable for those affected by seasonal allergies!
+
+Target Browsers
+
+Pollify is for a wide range of modern browsers and devices. Specifically:
+
+Desktop Browsers: Chrome (latest version), Firefox (latest version), Safari (latest version), Microsoft Edge (latest version).
+
+Mobile Browsers:
+
+iOS: Safari on iOS 14 and above.
+
+
+Our responsive design ensures Pollify performs seamlessly across desktop and mobile platforms.
+
+
+
+
+
 Developer Manual:
 
 Installation:
