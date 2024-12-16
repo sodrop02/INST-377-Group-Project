@@ -31,9 +31,10 @@ Install necessary dependencies:
 npm install
 npm i dotenv
 
-create .env file with these lines, replacing "API_KEY" with your key:
+create .env file with these lines, replacing "API_KEY" with your key, and replace [OUR PASSWORD HERE!] with the db password:
 API_NINJAS_KEY=API_KEY
 GOOGLE_API_KEY=API_KEY
+SUPABASE_URL = postgresql://postgres.jiwmhzgplqxjkydcpxxs:[OUR PASSWORD HERE!]@aws-0-us-east-1.pooler.supabase.com:6543/postgres
 
 Running:
 
